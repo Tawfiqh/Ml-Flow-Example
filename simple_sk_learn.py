@@ -1,11 +1,13 @@
 from sklearn import tree
 from sklearn import datasets
+from sklearn.metrics import r2_score
 
+import mlflow.pyfunc
 import mlflow
 import argparse
 from sklearn import datasets
 
-from sklearn import model_selection, linear_model
+from sklearn import model_selection
 
 
 # - Testing different models
@@ -21,16 +23,33 @@ X_train, X_val, y_train, y_val = model_selection.train_test_split(
 def get_flags_passed_in_from_terminal():
     parser = argparse.ArgumentParser()
     parser.add_argument("-max_depth", type=int, default=200)
+    parser.add_argument("-load_model", type=int, default=0)
+
     args = parser.parse_args()
     return args
 
 
-ml_flow_model = True
+args = get_flags_passed_in_from_terminal()
 
-if ml_flow_model:
+ml_flow_load = args.load_model
+print(f"\n\nml_flow_load:{ml_flow_load}")
+
+if ml_flow_load:
+    model_name = "sklearn-DecisionTree-model"
+    model_version = 10
+
+    model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{model_version}")
+
+    y_hat = model.predict(X)
+    print("y_hat", y_hat)
+    print("y_hat-y", y_hat - y)
+    test_score = r2_score(y, y_hat)
+    print(f"test_score: {test_score}")
+
+
+else:
     # mlflow.sklearn.autolog()
 
-    args = get_flags_passed_in_from_terminal()
     max_depth = args.max_depth
 
     iteration = 0
@@ -58,5 +77,5 @@ if ml_flow_model:
             mlflow.sklearn.log_model(
                 sk_model=model,
                 artifact_path="sklearn-DecisionTree-model",
-                registered_model_name=f"sklearn-DecisionTree-model-{iteration}",
+                registered_model_name=f"sklearn-DecisionTree-model",
             )
