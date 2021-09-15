@@ -34,7 +34,7 @@ if ml_flow_model:
     max_depth = args.max_depth
 
     iteration = 0
-    for max_leaf_nodes in range(2, 1000, 10):
+    for max_leaf_nodes in range(2, 1000, 100):
         with mlflow.start_run() as run:
             iteration += 1
             model = tree.DecisionTreeRegressor(
@@ -54,7 +54,9 @@ if ml_flow_model:
             mlflow.log_metric("testing r2 score", testing_score, iteration)
             mlflow.log_metric("validation r2 score", validation_score, iteration)
 
-            # print()
-            # print("training_score", training_score)
-            # print("testing_score", testing_score)
-            # print("validation_score)", validation_score)
+            # Log the sklearn model and register as version 1
+            mlflow.sklearn.log_model(
+                sk_model=model,
+                artifact_path="sklearn-DecisionTree-model",
+                registered_model_name=f"sklearn-DecisionTree-model-{iteration}",
+            )
