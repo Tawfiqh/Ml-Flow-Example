@@ -8,3 +8,23 @@ $ mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root 
 
 $ mlflow run . # to just load model from file (if saved)
 $ mlflow run . -e train #to train a new model
+
+# Docker
+Build the Dockerfile into an image (and then we run the image as a container)
+
+$ docker build --tag aicore-mlflow-docker . 
+$ docker run -p 8000:8000 --name mlflow-fast-api-test aicore-mlflow-docker 
+
+Run with -d to run it in the background (detached)
+$ docker run -p 8000:8000 --name mlflow-fast-api-test aicore-mlflow-docker 
+
+$ docker start mlflow-fast-api-test
+$ docker stop mlflow-fast-api-test
+
+Now can ping the API on 0.0.0.0:8000
+
+docker run -i -t conda/miniconda3 /bin/bash
+
+Can we do miniconda3- with a lower version of python
+
+or a lower version of any of our other packages

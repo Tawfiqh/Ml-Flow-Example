@@ -1,5 +1,7 @@
 name: MlFlow_test
 
+conda_env: my_env.yaml
+
 entry_points:
   main:
     parameters:
