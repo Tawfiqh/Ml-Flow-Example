@@ -17,8 +17,9 @@ X, y = datasets.load_boston(return_X_y=True)
 
 model_name = "sklearn-DecisionTree-model"
 model_version = 10
-
-model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{model_version}")
+model_uri = f"models:/{model_name}/{model_version}"
+print(f"model_uri: {model_uri}")
+model = mlflow.pyfunc.load_model(model_uri=model_uri)
 
 y_hat = model.predict(X)
 print("y_hat", y_hat)

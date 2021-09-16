@@ -1,8 +1,0 @@
-name: MlFlow_test
-
-entry_points:
-  main:
-    parameters:
-      max_depth: {type: int, default: 100}
-      load_model: {type: int, default: 0}
-    command: "python simple_sk_learn.py -max_depth={max_depth} -load_model={load_model}"

@@ -1,0 +1,13 @@
+name: MlFlow_test
+
+entry_points:
+  main:
+    parameters:
+      max_depth: {type: int, default: 100}
+      load_model: {type: int, default: 1}
+    command: "python ml_flow_load_model.py -max_depth={max_depth} -load_model={load_model}"
+  train:
+    parameters:
+        max_depth: {type: int, default: 100}
+        load_model: {type: int, default: 0}
+    command: "python ml_flow_train_model.py -max_depth={max_depth} -load_model={load_model}"
